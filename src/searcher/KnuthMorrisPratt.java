@@ -3,29 +3,28 @@ package searcher;
 import java.util.ArrayList;
 import java.util.List;
 
-public class KnuthMorrisPratt {
-	private char[] texto;
-	private char[] padrao;
+public class KnuthMorrisPratt implements Searcher{
 	private int[] prefixos;
+	private char[] pattern;
 
-	public KnuthMorrisPratt() {
-	}
-
-	private List<Integer> search() {
+	@Override
+	public List<String> searchPattern(String patternToSearch, String textToSearch) {
+		pattern = patternToSearch.toCharArray();
+		char[] text = textToSearch.toCharArray();
 		this.preProcessamento();
-		List<Integer> resultado = new ArrayList<Integer>();
-		int n = texto.length;
-		int m = padrao.length;
+		List<String> resultado = new ArrayList<String>();
+		int n = text.length;
+		int m = pattern.length;
 		int s = -1;
 		for (int i = 0; i <= n - 1; i++) {
-			while (s > -1 && padrao[s + 1] != texto[i]) {
+			while (s > -1 && pattern[s + 1] != text[i]) {
 				s = prefixos[s];
 			}
-			if (padrao[s + 1] == texto[i]) {
+			if (pattern[s + 1] == text[i]) {
 				s++;
 			}
 			if (s == m - 1) {
-				resultado.add(i - m + 1);
+				resultado.add(i - m + 1+"");
 				s = prefixos[s];
 			}
 		}
@@ -48,24 +47,10 @@ public class KnuthMorrisPratt {
 		return prefixos;
 	}
 
-	public void setTexto(String texto) {
-		this.texto = texto.toCharArray();
-	}
-
-	public void setPadrao(String padrao) {
-		this.padrao = padrao.toCharArray();
-	}
 
 	private void preProcessamento() {
-		this.prefixos = calculaPrefixos(padrao);
+		this.prefixos = calculaPrefixos(pattern);
 	}
 	
 	
-	public static void main(String[] args) {
-		KnuthMorrisPratt kmp = new KnuthMorrisPratt();
-		kmp.setPadrao("anderson");
-		kmp.setTexto("anderson gustavo, tuliom , lari, anderson");
-		System.out.println(kmp.search());
-		
-	}
 }

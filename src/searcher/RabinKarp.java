@@ -4,18 +4,16 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class RabinKarp {
-	public static String texto2 = "anderson gustavo, tuliom , lari, anderson";
-	public static String padrao2 = "anderson";
+public class RabinKarp implements Searcher{
 
-	public static char[] texto = texto2.toCharArray();
-	public static char[] padrao = padrao2.toCharArray();
-
-	public static List<Integer> search () {
+	@Override
+	public List<String> searchPattern (String textToSearch, String patternToSearch) {
 		long time1 = Calendar.getInstance().getTimeInMillis();
-		List<Integer> resultados = new ArrayList<Integer>();
-		int n = texto.length ;
-		int m = padrao.length ;
+		List<String> resultados = new ArrayList<String>();
+		char[] text = textToSearch.toCharArray();
+		char[] pattern = patternToSearch.toCharArray();
+		int n = text.length ;
+		int m = pattern.length ;
 		int h = 255;
 		int primo = 31;
 		int base = 1;
@@ -25,30 +23,30 @@ public class RabinKarp {
 		int hashTexto = 0;
 		int hashPadrao = 0;
 		for ( int i = 0; i < m && i < n ; i ++) {
-			hashTexto = hashTexto * h + texto [ i ];
-			hashPadrao = hashPadrao * h + padrao [ i ];
+			hashTexto = hashTexto * h + text [ i ];
+			hashPadrao = hashPadrao * h + pattern [ i ];
 		}
 		hashPadrao %= primo ;
 		if ( hashTexto % primo == hashPadrao ){
 			int k = 0;
-			while (k < m && padrao [ k ]== texto [ k ]){
+			while (k < m && pattern [ k ]== text [ k ]){
 				k ++;
 			}
 			if ( k == m ){
-				resultados.add(0);
+				resultados.add(0+"");
 			}
 		}
 		for ( int i = m ; i < n ; i ++) {
-			hashTexto = hashTexto - texto [i - m ]* base ;
+			hashTexto = hashTexto - text [i - m ]* base ;
 			hashTexto *= h ;
-			hashTexto += texto [ i ];
+			hashTexto += text [ i ];
 			if ( hashTexto % primo == hashPadrao ){
 				int k =0;
-				while (k < m && padrao [ k ]== texto [i - m +1+ k ]){
+				while (k < m && pattern [ k ]== text [i - m +1+ k ]){
 					k ++;
 				}
 				if ( k == m ){
-					resultados.add(i - m +1);
+					resultados.add(i - m +1+"");
 				}
 			}
 		}
@@ -57,8 +55,4 @@ public class RabinKarp {
 		return resultados ;
 	}
 	
-	public static void main(String[] args) {
-		System.out.println(RabinKarp.search());
-		
-	}
 }
