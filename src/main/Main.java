@@ -1,5 +1,9 @@
 package main;
 
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
 import searcher.BruteForceStringSearcher;
@@ -31,23 +35,23 @@ public class Main {
 
 	}
 
-	private static String readPatternFile(String patternFilePath) {
-		// TODO return a string containing the whole file's content
-		return null;
+	private static String readPatternFile(String patternFilePath) throws IOException {
+		 byte[] encoded = Files.readAllBytes(Paths.get(patternFilePath));
+		 return new String(encoded, Charset.defaultCharset());
 	}
 
-	private static String readBaseFile(String baseFilePath) {
-		// TODO return a string containing the whole file's content
-		return null;
+	private static String readBaseFile(String baseFilePath) throws IOException {
+		 byte[] encoded = Files.readAllBytes(Paths.get(baseFilePath));
+		 return new String(encoded, Charset.defaultCharset());
 	}
 
 	private static void init(int option, String text, String pattern) {
 		switch (option) {
 		case 1:
-			runBruteForceExperiment(text, pattern);
+			System.out.println(runBruteForceExperiment(text, pattern));
 			break;
 		case 2:
-			runKnuthMorrisExperiment(text, pattern);
+			System.out.println(runKnuthMorrisExperiment(text, pattern));
 			break;
 		case 3:
 			runRabinKarpExperiment(text, pattern);
@@ -59,15 +63,22 @@ public class Main {
 	}
 
 	public static void main(String[] args) {
-		int approach = Integer.parseInt(args[1].trim());
+		int approach = Integer.parseInt(args[0].trim());
 
-		String patternFilePath = args[2].trim();
-		String baseFilePath = args[3].trim();
+		String patternFilePath = args[1].trim();
+		String baseFilePath = args[2].trim();
 
-		String text = readBaseFile(baseFilePath);
-		String pattern = readPatternFile(patternFilePath);
+		String text;
+		try {
+			text = readBaseFile(baseFilePath);
+			String pattern = readPatternFile(patternFilePath);
 
-		init(approach, text, pattern);
+			init(approach, text, pattern); 
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 }
