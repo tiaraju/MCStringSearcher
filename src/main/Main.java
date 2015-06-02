@@ -1,14 +1,12 @@
 package main;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 import searcher.BruteForceStringSearcher;
 import searcher.KnuthMorrisPratt;
 import searcher.RabinKarp;
 import searcher.Searcher;
+import util.FileIO;
 
 public class Main {
 
@@ -18,15 +16,6 @@ public class Main {
 		searcher = new BruteForceStringSearcher();
 		return searcher.searchPattern(pattern, text);
 
-	}
-
-	private static boolean isNumeric(String str) {
-		try {
-			Integer.parseInt(str);
-		} catch (NumberFormatException nfe) {
-			return false;
-		}
-		return true;
 	}
 
 	private static boolean runKnuthMorrisExperiment(String text, String pattern) {
@@ -40,15 +29,13 @@ public class Main {
 
 	}
 
-	private static String readPatternFile(String patternFilePath)
-			throws IOException {
-		byte[] encoded = Files.readAllBytes(Paths.get(patternFilePath));
-		return new String(encoded, Charset.defaultCharset());
-	}
-
-	private static String readBaseFile(String baseFilePath) throws IOException {
-		byte[] encoded = Files.readAllBytes(Paths.get(baseFilePath));
-		return new String(encoded, Charset.defaultCharset());
+	private static boolean isNumeric(String str) {
+		try {
+			Integer.parseInt(str);
+		} catch (NumberFormatException nfe) {
+			return false;
+		}
+		return true;
 	}
 
 	private static void init(int option, String text, String pattern) {
@@ -81,11 +68,11 @@ public class Main {
 		int approach = Integer.parseInt(args[0].trim());
 		String patternFilePath = args[1].trim();
 		String baseFilePath = args[2].trim();
-		String text;
+		String text, pattern;
 		try {
-			text = readBaseFile(baseFilePath).replaceAll(
+			text = FileIO.readFile(baseFilePath).replaceAll(
 					System.getProperty("line.separator"), "");
-			String pattern = readPatternFile(patternFilePath).replaceAll(
+			pattern = FileIO.readFile(patternFilePath).replaceAll(
 					System.getProperty("line.separator"), "");
 			init(approach, text, pattern);
 		} catch (IOException e) {
