@@ -7,7 +7,7 @@ import java.util.List;
 public class RabinKarp implements Searcher{
 
 	@Override
-	public List<String> searchPattern (String textToSearch, String patternToSearch) {
+	public boolean searchPattern (String textToSearch, String patternToSearch) {
 		long time1 = Calendar.getInstance().getTimeInMillis();
 		List<String> resultados = new ArrayList<String>();
 		char[] text = textToSearch.toCharArray();
@@ -52,7 +52,7 @@ public class RabinKarp implements Searcher{
 		}
 		long time2 = Calendar.getInstance().getTimeInMillis();
 		System.out.println("Time: " + (time2 - time1));
-		return resultados ;
+		return !resultados.isEmpty() ;
 	}
 	
 }

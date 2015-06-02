@@ -8,7 +8,7 @@ public class KnuthMorrisPratt implements Searcher{
 	private char[] pattern;
 
 	@Override
-	public List<String> searchPattern(String patternToSearch, String textToSearch) {
+	public boolean searchPattern(String patternToSearch, String textToSearch) {
 		pattern = patternToSearch.toCharArray();
 		char[] text = textToSearch.toCharArray();
 		this.preProcessamento();
@@ -28,10 +28,10 @@ public class KnuthMorrisPratt implements Searcher{
 				s = prefixos[s];
 			}
 		}
-		return resultado;
+		return !resultado.isEmpty();
 	}
 
-	public int[] calculaPrefixos(char[] P) {
+	private int[] calculaPrefixos(char[] P) {
 		int m = P.length;
 		int[] prefixos = new int[m];
 		prefixos[0] = -1;

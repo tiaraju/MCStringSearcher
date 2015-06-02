@@ -6,7 +6,7 @@ import java.util.List;
 public class BruteForceStringSearcher implements Searcher{
 
 	@Override
-	public List<String> searchPattern(String pattern, String text) {
+	public boolean searchPattern(String pattern, String text) {
 		String[] splittedText = text.split("[\\s,.!\\?:;][\\s]*");
 		List<String> result = new ArrayList<String>(); 
 		for (String string : splittedText) {
@@ -14,7 +14,7 @@ public class BruteForceStringSearcher implements Searcher{
 				result.add(string);
 			}
 		}
-		return result;
+		return !result.isEmpty();
 	}
 	
 
