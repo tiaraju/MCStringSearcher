@@ -64,18 +64,14 @@ public class Main {
 
 	public static void main(String[] args) {
 		int approach = Integer.parseInt(args[0].trim());
-
 		String patternFilePath = args[1].trim();
 		String baseFilePath = args[2].trim();
-
 		String text;
 		try {
-			text = readBaseFile(baseFilePath);
-			String pattern = readPatternFile(patternFilePath);
-
-			init(approach, text, pattern); 
+			text = readBaseFile(baseFilePath).replaceAll(System.getProperty("line.separator"), "");
+			String pattern = readPatternFile(patternFilePath).replaceAll(System.getProperty("line.separator"), "");
+			init(approach, text, pattern);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
