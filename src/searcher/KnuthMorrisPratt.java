@@ -1,14 +1,23 @@
 package searcher;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
-public class KnuthMorrisPratt implements Searcher{
+public class KnuthMorrisPratt implements Searcher {
 	private int[] prefixos;
 	private char[] pattern;
 
+	private int numberOfOperations;
+	private long startTime,endTime;
+
+	public KnuthMorrisPratt() {
+		this.numberOfOperations = 0;
+	}
+
 	@Override
 	public boolean searchPattern(String patternToSearch, String textToSearch) {
+		startTime = Calendar.getInstance().getTimeInMillis();
 		pattern = patternToSearch.toCharArray();
 		char[] text = textToSearch.toCharArray();
 		this.preProcessamento();
@@ -19,15 +28,19 @@ public class KnuthMorrisPratt implements Searcher{
 		for (int i = 0; i <= n - 1; i++) {
 			while (s > -1 && pattern[s + 1] != text[i]) {
 				s = prefixos[s];
+				numberOfOperations++;
 			}
 			if (pattern[s + 1] == text[i]) {
 				s++;
+				numberOfOperations++;
 			}
 			if (s == m - 1) {
-				resultado.add(i - m + 1+"");
+				resultado.add(i - m + 1 + "");
 				s = prefixos[s];
+				numberOfOperations++;
 			}
 		}
+		endTime = Calendar.getInstance().getTimeInMillis();
 		return !resultado.isEmpty();
 	}
 
@@ -38,8 +51,10 @@ public class KnuthMorrisPratt implements Searcher{
 		for (int i = 1, s = -1; i < m; i++) {
 			while (s > -1 && P[s + 1] != P[i]) {
 				s = prefixos[s];
+				numberOfOperations++;
 			}
 			if (P[s + 1] == P[i]) {
+				numberOfOperations++;
 				s++;
 			}
 			prefixos[i] = s;
@@ -47,10 +62,18 @@ public class KnuthMorrisPratt implements Searcher{
 		return prefixos;
 	}
 
-
 	private void preProcessamento() {
 		this.prefixos = calculaPrefixos(pattern);
 	}
-	
-	
+
+	@Override
+	public int getNumberOfOperations() {
+		return this.numberOfOperations;
+	}
+
+	@Override
+	public long getTimeOfExecution() {
+		return this.endTime-this.startTime;
+	}
+
 }

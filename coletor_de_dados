@@ -1,0 +1,33 @@
+#!/bin/bash
+
+APP_HOME=`pwd`
+
+option=$1
+pattern=$2
+base=$3
+
+help() {
+	echo -e '\nTo start the application, run: coletor_de_dados [-options] patternFilePath baseTextFilePath\n'
+	echo -e 'Algorithms :\n'
+	echo -e '1: BruteForce'
+	echo -e '2: KnuthMorrisPrat'
+	echo -e '3: RabinKarp\n'
+	echo -e 'Select the corresponding number\n'
+	exit 1
+
+}
+
+function run() {
+	 if ["$option" -eq 1]; then 
+		 	OUT= java -jar MCStringSearcher.jar $option $pattern $base
+			echo $OUT
+	 else help
+            exit 1
+    fi
+}
+
+
+run
+
+
+
