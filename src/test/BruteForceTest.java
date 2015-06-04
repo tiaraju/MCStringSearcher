@@ -82,7 +82,7 @@ public class BruteForceTest {
 	public void testPatternContainsText() {
 		String pattern = getPattern(TEXTO_1_PATH);
 		try {
-			assertFalse("O pattern n�o deveria conter o texto", 
+			assertFalse("O pattern não deveria conter o texto", 
 					Main.init(SEARCHER, PALAVRA_1_PATH, pattern));
 		} catch (IOException e) {
 			e.printStackTrace();
