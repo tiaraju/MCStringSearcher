@@ -1,7 +1,6 @@
 package searcher;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class KnuthMorrisPratt implements Searcher {
@@ -9,7 +8,6 @@ public class KnuthMorrisPratt implements Searcher {
 	private char[] pattern;
 
 	private int numberOfOperations;
-	private long startTime,endTime;
 
 	public KnuthMorrisPratt() {
 		this.numberOfOperations = 0;
@@ -17,7 +15,6 @@ public class KnuthMorrisPratt implements Searcher {
 
 	@Override
 	public boolean searchPattern(String patternToSearch, String textToSearch) {
-		startTime = Calendar.getInstance().getTimeInMillis();
 		pattern = patternToSearch.toCharArray();
 		char[] text = textToSearch.toCharArray();
 		this.preProcessamento();
@@ -40,7 +37,6 @@ public class KnuthMorrisPratt implements Searcher {
 				numberOfOperations++;
 			}
 		}
-		endTime = Calendar.getInstance().getTimeInMillis();
 		return !resultado.isEmpty();
 	}
 
@@ -71,9 +67,5 @@ public class KnuthMorrisPratt implements Searcher {
 		return this.numberOfOperations;
 	}
 
-	@Override
-	public long getTimeOfExecution() {
-		return this.endTime-this.startTime;
-	}
 
 }

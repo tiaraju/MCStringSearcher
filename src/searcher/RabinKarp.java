@@ -1,13 +1,11 @@
 package searcher;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class RabinKarp implements Searcher{
 	
 	private int numberOfOperations;
-	private long startTime,endTime;
 	
 	public RabinKarp() {
 		this.numberOfOperations=0;
@@ -15,7 +13,6 @@ public class RabinKarp implements Searcher{
 
 	@Override
 	public boolean searchPattern (String textToSearch, String patternToSearch) {
-		startTime = Calendar.getInstance().getTimeInMillis();
 		List<String> resultados = new ArrayList<String>();
 		char[] text = textToSearch.toCharArray();
 		char[] pattern = patternToSearch.toCharArray();
@@ -64,7 +61,6 @@ public class RabinKarp implements Searcher{
 				}
 			}
 		}
-		endTime = Calendar.getInstance().getTimeInMillis();
 		return !resultados.isEmpty() ;
 	}
 
@@ -73,9 +69,5 @@ public class RabinKarp implements Searcher{
 		return this.numberOfOperations;
 	}
 
-	@Override
-	public long getTimeOfExecution() {
-		return this.endTime - this.startTime;
-	}
 	
 }

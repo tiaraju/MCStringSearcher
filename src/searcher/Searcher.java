@@ -7,6 +7,5 @@ public interface Searcher {
 	
 	public int getNumberOfOperations();
 	
-	public long getTimeOfExecution();
 
 }

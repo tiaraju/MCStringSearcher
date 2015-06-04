@@ -1,10 +1,9 @@
 package main;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Collection;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
@@ -12,74 +11,75 @@ import searcher.BruteForceStringSearcher;
 import searcher.KnuthMorrisPratt;
 import searcher.RabinKarp;
 import searcher.Searcher;
+import util.FileIO;
 import util.MemoryWatcher;
 
 public class Main {
 
 	private static Searcher searcher;
 	private static boolean contains = false;
+	private static final double FILE_SIZE = 10e8;
+	private static int operations=0;
 
-	private static boolean runBruteForceExperiment(String text, String pattern) {
-		searcher = new BruteForceStringSearcher();
-		return searcher.searchPattern(pattern, text);
+	private static boolean runExperiment(String filePath, String pattern) throws IOException {
+		if (searcher != null) {
+			BufferedReader reader = new BufferedReader(new FileReader(filePath));
+			StringBuilder builder = new StringBuilder();
+			try {
+				String line = reader.readLine();
+				while (line != null) {
+					builder.append(line);
+					line = reader.readLine();
+					if (line != null) {
+						builder.append("\n");
+					}
+					if (builder.length() < FILE_SIZE) {
+						contains = contains || searcher.searchPattern(pattern,builder.toString());
+						operations+=searcher.getNumberOfOperations();
+						builder.delete(0, builder.length());
+					}
+				}
+			} finally {
+				reader.close();
+			}
+		
+		}
 
+		return contains;
 	}
 
-	private static boolean runKnuthMorrisExperiment(String text, String pattern) {
-		searcher = new KnuthMorrisPratt();
-		return searcher.searchPattern(pattern, text);
-	}
-
-	private static boolean runRabinKarpExperiment(String text, String pattern) {
-		searcher = new RabinKarp();
-		return searcher.searchPattern(pattern, text);
-
-	}
-
-	private static String readPatternFile(String patternFilePath)
-			throws IOException {
-		byte[] encoded = Files.readAllBytes(Paths.get(patternFilePath));
-		return new String(encoded, Charset.defaultCharset());
-	}
-
-	private static String readBaseFile(String baseFilePath) throws IOException {
-		byte[] encoded = Files.readAllBytes(Paths.get(baseFilePath));
-		return new String(encoded, Charset.defaultCharset());
-	}
-
-	private static void init(int option, String text, String pattern) {
+	private static void init(int option, String baseFilePath, String pattern) throws IOException {
 		switch (option) {
 		case 1:
-			contains = runBruteForceExperiment(text, pattern);
+			searcher = new BruteForceStringSearcher();
 			break;
 		case 2:
-			contains = runKnuthMorrisExperiment(text, pattern);
+			searcher = new KnuthMorrisPratt();
 			break;
 		case 3:
-			contains = runRabinKarpExperiment(text, pattern);
+			searcher = new RabinKarp();
 			break;
 		default:
 			System.out.println("Invalid Option. Try Again later.");
 			break;
 		}
+		runExperiment(baseFilePath, pattern);
 	}
 
 	public static void main(String[] args) {
 		int approach = Integer.parseInt(args[0].trim());
 		String patternFilePath = args[1].trim();
 		String baseFilePath = args[2].trim();
-		String text;
 		MemoryWatcher memory = new MemoryWatcher();
 		Thread thread = new Thread(memory);
+		String pattern;
 		try {
-			text = readBaseFile(baseFilePath).replaceAll(
+			pattern = FileIO.readFile(patternFilePath).replaceAll(
 					System.getProperty("line.separator"), "");
-			String pattern = readPatternFile(patternFilePath).replaceAll(
-					System.getProperty("line.separator"), "");
-			;
 			thread.start();
-			init(approach, text, pattern);
-
+			long startTime = Calendar.getInstance().getTimeInMillis();
+			init(approach, baseFilePath, pattern);
+			long endTime = Calendar.getInstance().getTimeInMillis();
 			if (thread != null) {
 				memory.stopWatcher();
 				thread.join();
@@ -88,13 +88,13 @@ public class Main {
 			List<Long> values = memory.getMemoryConsumptionValues();
 			Collections.sort(values);
 			long memoryConsumption = values.get(values.size() / 2);
-			long timeOfExecution = searcher.getTimeOfExecution();
-			int numberOfOperations = searcher.getNumberOfOperations();
+			long timeOfExecution = endTime - startTime;
 
-			System.out.println("Texto buscado: " + pattern + " \nTexto_busca: "
-					+ text + " \nResultado: " + contains
-					+ " \nTempo execução: " + timeOfExecution
-					+ " \nConsumo de Memória: "+memoryConsumption+"\n Número de Operações: "+numberOfOperations);
+			System.out.println("Texto buscado: " + patternFilePath
+					+ " \nTexto_busca: " + baseFilePath + " \nResultado: "
+					+ contains + " \nTempo execução: " + timeOfExecution
+					+ " \nConsumo de Memória: " + memoryConsumption
+					+ "\n Número de Operações: " + operations);
 
 		} catch (IOException e) {
 			e.printStackTrace();

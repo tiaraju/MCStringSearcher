@@ -1,6 +1,7 @@
 package searcher;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class BruteForceStringSearcher implements Searcher{
@@ -27,11 +28,6 @@ public class BruteForceStringSearcher implements Searcher{
 	@Override
 	public int getNumberOfOperations() {
 		return this.numberOfOperations;
-	}
-	@Override
-	public long getTimeOfExecution() {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 	
 
