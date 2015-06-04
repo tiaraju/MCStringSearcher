@@ -24,8 +24,8 @@ public class Main {
 			BufferedReader reader = new BufferedReader(new FileReader(filePath));
 			StringBuilder builder = new StringBuilder();
 			
-			Double patternSize = new Double(pattern.length());
-			Double bufferSize = patternSize*3;
+			long patternSize = pattern.length();
+			long bufferSize = patternSize*3;
 			try {
 				String line = reader.readLine();
 				while (line != null) {
@@ -39,13 +39,15 @@ public class Main {
 						builder.delete(0, builder.length()/3);
 					}
 				}
+				if(pattern.substring(pattern.length() - 1).equals("\n")){
+					builder.append("\n");
+				}
 				contains = contains || searcher.searchPattern(pattern,builder.toString());
 			} finally {
 				reader.close();
 			}
 		
 		}
-
 		return contains;
 	}
 	
