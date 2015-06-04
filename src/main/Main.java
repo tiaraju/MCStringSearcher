@@ -7,6 +7,8 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
+import com.sun.org.apache.xalan.internal.xsltc.compiler.Parser;
+
 import searcher.BruteForceStringSearcher;
 import searcher.KnuthMorrisPratt;
 import searcher.RabinKarp;
@@ -18,13 +20,15 @@ public class Main {
 
 	private static Searcher searcher;
 	private static boolean contains = false;
-	private static final double FILE_SIZE = 10e8;
 	private static int operations=0;
 
-	private static boolean runExperiment(String filePath, String pattern) throws IOException {
+	public static boolean runExperiment(String filePath, String pattern) throws IOException {
 		if (searcher != null) {
 			BufferedReader reader = new BufferedReader(new FileReader(filePath));
 			StringBuilder builder = new StringBuilder();
+			
+			Double patternSize = new Double(pattern.length());
+			Double bufferSize = patternSize*3;
 			try {
 				String line = reader.readLine();
 				while (line != null) {
@@ -33,12 +37,13 @@ public class Main {
 					if (line != null) {
 						builder.append("\n");
 					}
-					if (builder.length() < FILE_SIZE) {
+					if (builder.length() > bufferSize) {
 						contains = contains || searcher.searchPattern(pattern,builder.toString());
 						operations+=searcher.getNumberOfOperations();
-						builder.delete(0, builder.length());
+						builder.delete(0, builder.length()/3);
 					}
 				}
+				contains = contains || searcher.searchPattern(pattern,builder.toString());
 			} finally {
 				reader.close();
 			}
@@ -47,8 +52,9 @@ public class Main {
 
 		return contains;
 	}
-
-	private static void init(int option, String baseFilePath, String pattern) throws IOException {
+	
+	public static boolean init(int option, String baseFilePath, String pattern) throws IOException {
+		contains = false;
 		switch (option) {
 		case 1:
 			searcher = new BruteForceStringSearcher();
@@ -63,7 +69,7 @@ public class Main {
 			System.out.println("Invalid Option. Try Again later.");
 			break;
 		}
-		runExperiment(baseFilePath, pattern);
+		return runExperiment(baseFilePath, pattern);
 	}
 
 	public static void main(String[] args) {
@@ -74,8 +80,7 @@ public class Main {
 		Thread thread = new Thread(memory);
 		String pattern;
 		try {
-			pattern = FileIO.readFile(patternFilePath).replaceAll(
-					System.getProperty("line.separator"), "");
+			pattern = FileIO.readFile(patternFilePath);
 			thread.start();
 			long startTime = Calendar.getInstance().getTimeInMillis();
 			init(approach, baseFilePath, pattern);
