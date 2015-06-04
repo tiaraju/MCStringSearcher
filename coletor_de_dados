@@ -18,9 +18,9 @@ help() {
 }
 
 function run() {
-	 if ["$option" -eq 1]; then 
-		 	OUT= java -jar MCStringSearcher.jar $option $pattern $base
-			echo $OUT
+	 if [ $option -eq 1 ] || [ $option -eq 2 ] || [ $option -eq 3 ]; then 
+	 	OUT= java -jar MCStringSearcher.jar $option $pattern $base
+		echo -e $OUT
 	 else help
             exit 1
     fi

@@ -7,8 +7,6 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
-import com.sun.org.apache.xalan.internal.xsltc.compiler.Parser;
-
 import searcher.BruteForceStringSearcher;
 import searcher.KnuthMorrisPratt;
 import searcher.RabinKarp;
@@ -20,7 +18,6 @@ public class Main {
 
 	private static Searcher searcher;
 	private static boolean contains = false;
-	private static int operations=0;
 
 	public static boolean runExperiment(String filePath, String pattern) throws IOException {
 		if (searcher != null) {
@@ -39,7 +36,6 @@ public class Main {
 					}
 					if (builder.length() > bufferSize) {
 						contains = contains || searcher.searchPattern(pattern,builder.toString());
-						operations+=searcher.getNumberOfOperations();
 						builder.delete(0, builder.length()/3);
 					}
 				}
@@ -97,9 +93,10 @@ public class Main {
 
 			System.out.println("Texto buscado: " + patternFilePath
 					+ " \nTexto_busca: " + baseFilePath + " \nResultado: "
-					+ contains + " \nTempo execução: " + timeOfExecution
+					+ contains + " \nTempo execução: " + timeOfExecution+" mSec"
 					+ " \nConsumo de Memória: " + memoryConsumption
-					+ "\n Número de Operações: " + operations);
+					+ "\nNúmero de Operações: " + searcher.getNumberOfOperations());
+			System.exit(1);
 
 		} catch (IOException e) {
 			e.printStackTrace();

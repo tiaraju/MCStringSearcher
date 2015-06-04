@@ -1,8 +1,6 @@
 package searcher;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
+
 
 public class BruteForceStringSearcher implements Searcher{
 
@@ -13,7 +11,23 @@ public class BruteForceStringSearcher implements Searcher{
 	}
 	@Override
 	public boolean searchPattern(String pattern, String text) {
-		return text.contains(pattern);
+		boolean contains = false;
+		if(pattern != null && text != null){
+			int n = text.length();
+			int m = pattern.length();
+			for (int i = 0; i < n - m + 1; i++) {
+				int j = 0;
+				while (j < m && text.charAt(i + j) == pattern.charAt(j)) {
+					j++;
+					this.numberOfOperations++;
+				}
+				if (j == m) {
+					contains = true;
+				}
+				this.numberOfOperations++;
+			}
+		}		
+		return contains;
 	}
 
 	@Override
