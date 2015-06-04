@@ -12,12 +12,16 @@ help() {
 	echo -e '1: Brute Force'
 	echo -e '2: Knuth-Morris-Prat'
 	echo -e '3: Rabin-Karp\n'
-	echo -e 'Select the corresponding number\n'
+	echo -e 'Select the corresponding number'
+	echo -e 'Example of usage: ./coletor_de_dados 0 /home/ubuntu/pattern.txt /home/ubuntu/text.txt\n'
 	exit 1
 
 }
 
 function run() {
+	 if [ -z "$option" ]; then
+	 	help
+	 fi
 	 if [ $option -eq 1 ] || [ $option -eq 2 ] || [ $option -eq 3 ]; then 
 	 	OUT= java -jar MCStringSearcher.jar $option $pattern $base
 		echo -e $OUT

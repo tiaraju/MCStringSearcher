@@ -102,7 +102,7 @@ public class Main {
 			long memoryConsumption = values.get(values.size() / 2);
 			long timeOfExecution = endTime - startTime;
 
-			System.out.println("Texto buscado: " + patternFilePath
+			System.out.println("\nTexto buscado: " + patternFilePath
 					+ " \nTexto_busca: " + baseFilePath
 					+ "\nAlgoritmo Utilizado: " + method + "\nResultado: "
 					+ contains + " \nTempo execução: " + timeOfExecution
