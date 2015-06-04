@@ -1,15 +1,22 @@
 package test;
 
-import static org.junit.Assert.*;
-import static test.TestUtil.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static test.TestUtil.PALAVRA_1_PATH;
+import static test.TestUtil.PALAVRA_2_PATH;
+import static test.TestUtil.PALAVRA_3_PATH;
+import static test.TestUtil.PALAVRA_4_PATH;
+import static test.TestUtil.PALAVRA_5_PATH;
+import static test.TestUtil.TEXTO_1_PATH;
+import static test.TestUtil.TEXTO_2_PATH;
+import static test.TestUtil.getPattern;
 
 import java.io.IOException;
 
 import main.Main;
 
 import org.junit.Test;
-
-import util.FileIO;
 
 public class RabinKarpTest {
 	
@@ -21,6 +28,7 @@ public class RabinKarpTest {
 		try {
 			assertTrue(Main.init(SEARCHER, TEXTO_1_PATH, pattern1));
 		} catch (IOException e) {
+			e.printStackTrace();
 			fail(e.getMessage());
 		}
 	}
@@ -31,6 +39,7 @@ public class RabinKarpTest {
 		try {
 			assertTrue(Main.init(SEARCHER, TEXTO_1_PATH, pattern4));
 		} catch (IOException e) {
+			e.printStackTrace();
 			fail(e.getMessage());
 		}
 	}
@@ -41,6 +50,7 @@ public class RabinKarpTest {
 		try {
 			assertTrue(Main.init(SEARCHER, TEXTO_2_PATH, pattern2));
 		} catch (IOException e) {
+			e.printStackTrace();
 			fail(e.getMessage());
 		}
 	}
@@ -51,6 +61,7 @@ public class RabinKarpTest {
 		try {
 			assertTrue(Main.init(SEARCHER, TEXTO_2_PATH, pattern3));
 		} catch (IOException e) {
+			e.printStackTrace();
 			fail(e.getMessage());
 		}
 	}
@@ -61,6 +72,7 @@ public class RabinKarpTest {
 		try {
 			assertTrue(Main.init(SEARCHER, TEXTO_2_PATH, pattern5));
 		} catch (IOException e) {
+			e.printStackTrace();
 			fail(e.getMessage());
 		}
 	}
@@ -72,6 +84,7 @@ public class RabinKarpTest {
 			assertFalse("O pattern não deveria conter o texto", 
 					Main.init(SEARCHER, PALAVRA_1_PATH, pattern));
 		} catch (IOException e) {
+			e.printStackTrace();
 			fail(e.getMessage());
 		}
 	}
@@ -82,6 +95,7 @@ public class RabinKarpTest {
 		try {
 			assertTrue(Main.init(SEARCHER, PALAVRA_1_PATH, pattern));
 		} catch (IOException e) {
+			e.printStackTrace();
 			fail(e.getMessage());
 		}
 	}
@@ -92,6 +106,7 @@ public class RabinKarpTest {
 		try {
 			assertTrue(Main.init(SEARCHER, TEXTO_1_PATH, pattern));
 		} catch (IOException e) {
+			e.printStackTrace();
 			fail(e.getMessage());
 		}
 	}
