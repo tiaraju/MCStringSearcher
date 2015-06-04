@@ -112,10 +112,11 @@ public class Main {
 			System.exit(1);
 
 		} catch (IOException e) {
-			System.out
-					.println("The specified file was not found. Please check the given file's path and try again");
+			System.out.println("\nThe specified file was not found. Please check the given file's path and try again");
+			System.exit(0);
 		} catch (InterruptedException e) {
 			System.out.println("Eror found: " + e.getMessage());
+			System.exit(0);
 		}
 
 	}
