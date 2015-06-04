@@ -13,7 +13,7 @@ help() {
 	echo -e '2: Knuth-Morris-Prat'
 	echo -e '3: Rabin-Karp\n'
 	echo -e 'Select the corresponding number'
-	echo -e 'Example of usage: ./coletor_de_dados 0 /home/ubuntu/pattern.txt /home/ubuntu/text.txt\n'
+	echo -e 'Example of usage: ./coletor_de_dados 2 /home/ubuntu/pattern.txt /home/ubuntu/text.txt\n'
 	exit 1
 
 }
