@@ -23,18 +23,17 @@ public class KnuthMorrisPratt implements Searcher {
 		int m = pattern.length;
 		int s = -1;
 		for (int i = 0; i <= n - 1; i++) {
+			 this.numberOfOperations++;
 			while (s > -1 && pattern[s + 1] != text[i]) {
 				s = prefixos[s];
 				numberOfOperations++;
 			}
 			if (pattern[s + 1] == text[i]) {
 				s++;
-				numberOfOperations++;
 			}
 			if (s == m - 1) {
 				resultado.add(i - m + 1 + "");
 				s = prefixos[s];
-				numberOfOperations++;
 			}
 		}
 		return !resultado.isEmpty();
@@ -45,12 +44,12 @@ public class KnuthMorrisPratt implements Searcher {
 		int[] prefixos = new int[m];
 		prefixos[0] = -1;
 		for (int i = 1, s = -1; i < m; i++) {
+			 this.numberOfOperations++;
 			while (s > -1 && P[s + 1] != P[i]) {
 				s = prefixos[s];
 				numberOfOperations++;
 			}
 			if (P[s + 1] == P[i]) {
-				numberOfOperations++;
 				s++;
 			}
 			prefixos[i] = s;
