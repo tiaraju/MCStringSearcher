@@ -1,0 +1,22 @@
+#!/bin/bash
+
+APP_HOME=`pwd`
+algorithms = (1 2 3)
+pattern = ()
+baseFile = ()
+
+function runExperiment(){
+	for (i=0 ; i<${#algorithms[@]};i++);
+	do
+		for(k=0;k<${#baseFile[@]};k++);
+		do
+			for(l=0;l<${#pattern[@]}];l++);
+			do
+				OUT= java -jar MCStringSearcher.jar ${algorithms[$i]} ${pattern[$l]} ${base[$k]}
+				echo -e $OUT
+			done
+		done
+
+	done
+
+}
