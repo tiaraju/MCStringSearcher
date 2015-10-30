@@ -1,22 +1,27 @@
 #!/bin/bash
 
 APP_HOME=`pwd`
-algorithms = (1 2 3)
-pattern = ()
-baseFile = ()
+algorithms=(1 2 3)
+patterns=('palavra4.txt' 'palavra2.txt' 'palavra1.txt' 'palavra3.txt')
+baseFiles=( 'googlebooks-eng-all-1gram-20120701-9' 'googlebooks-eng-all-1gram-20120701-2')
 
 function runExperiment(){
-	for (i=0 ; i<${#algorithms[@]};i++);
+	echo "TextoBuscado,TextoBusca,Algoritmo,Resultado,TempoDeExecucao,Memoria,Operacoes" >> results.csv
+
+	for number in ${algorithms[@]};
 	do
-		for(k=0;k<${#baseFile[@]};k++);
+		for base in ${baseFiles[@]};
 		do
-			for(l=0;l<${#pattern[@]}];l++);
+			for pattern in ${patterns[@]};
 			do
-				OUT= java -jar MCStringSearcher.jar ${algorithms[$i]} ${pattern[$l]} ${base[$k]}
-				echo -e $OUT
+				echo -e "running with algorith $number pattern $pattern and base file $base"
+				java -jar MCStringSearcher.jar $number $pattern $base >> results.csv
 			done
 		done
 
 	done
 
 }
+
+
+runExperiment
