@@ -2,26 +2,31 @@
 
 APP_HOME=`pwd`
 algorithms=(1 2 3)
-patterns=('palavra4.txt' 'palavra2.txt' 'palavra1.txt' 'palavra3.txt')
+patterns=('exp1.txt' 'exp2.txt' 'exp3.txt' 'exp4.txt')
 baseFiles=( 'googlebooks-eng-all-1gram-20120701-9' 'googlebooks-eng-all-1gram-20120701-2')
 
 function runExperiment(){
 	echo "TextoBuscado,TextoBusca,Algoritmo,Resultado,TempoDeExecucao,Memoria,Operacoes" >> results.csv
 
-	for number in ${algorithms[@]};
+	
+	for((i=0; i<10;i++))
 	do
-		for base in ${baseFiles[@]};
+		for number in ${algorithms[@]};
 		do
-			for pattern in ${patterns[@]};
+			for ((b=1;b<=${#baseFiles[@]};b++));
 			do
-				echo -e "running with algorith $number pattern $pattern and base file $base"
-				java -jar MCStringSearcher.jar $number $pattern $base >> results.csv
+				for pattern in ${patterns[@]};
+				do
+					echo -e "running with algorith $number pattern $pattern and base file$b ${baseFiles[$b]}"
+					java -jar MCStringSearcher.jar $number "file$b/$pattern" ${baseFiles[$b]} >> results.csv
+				done
 			done
-		done
 
+		done
+		echo "rodada $i" >> results.csv
 	done
 
 }
 
-
+	 	 
 runExperiment
