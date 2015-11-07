@@ -9,21 +9,20 @@ function runExperiment(){
 	echo "TextoBuscado,TextoBusca,Algoritmo,Resultado,TempoDeExecucao,Memoria,Operacoes" >> results.csv
 
 	
-	for((i=0; i<10;i++))
+	for((i=1; i<6;i++))
 	do
 		for number in ${algorithms[@]};
 		do
-			for ((b=1;b<=${#baseFiles[@]};b++));
+			for ((b=0;b<${#baseFiles[@]};b++));
 			do
 				for pattern in ${patterns[@]};
 				do
-					echo -e "running with algorith $number pattern $pattern and base file$b ${baseFiles[$b]}"
-					java -jar MCStringSearcher.jar $number "file$b/$pattern" ${baseFiles[$b]} >> results.csv
+					echo -e "running with algorithm $number pattern $pattern and base file$b ${baseFiles[$b]}"
+					java -jar MCStringSearcher.jar $number "file$b/$pattern" ${baseFiles[$b]} >> results$i.csv
 				done
 			done
 
 		done
-		echo "rodada $i" >> results.csv
 	done
 
 }
